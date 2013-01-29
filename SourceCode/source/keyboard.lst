@@ -1,0 +1,271 @@
+GAS LISTING C:\Users\Jack\AppData\Local\Temp/ccyqDlg0.s 			page 1
+
+
+   1               		.file	"keyboard.c"
+   2               		.arch atmega2561
+   3               	__SREG__ = 0x3f
+   4               	__SP_H__ = 0x3e
+   5               	__SP_L__ = 0x3d
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  10               		.text
+  11               	.global	KbScan
+  12               		.type	KbScan, @function
+  13               	KbScan:
+  14               	/* prologue: frame size=0 */
+  15               	/* prologue end (size=0) */
+  16 0000 A398      		cbi 52-0x20,3
+  17               	/* #APP */
+  18 0002 0000      		nop
+  19 0004 0000      		nop
+  20               	/* #NOAPP */
+  21 0006 4FB1      		in r20,47-0x20
+  22 0008 A39A      		sbi 52-0x20,3
+  23 000a A498      		cbi 52-0x20,4
+  24               	/* #APP */
+  25 000c 0000      		nop
+  26 000e 0000      		nop
+  27               	/* #NOAPP */
+  28 0010 6FB1      		in r22,47-0x20
+  29 0012 A49A      		sbi 52-0x20,4
+  30 0014 5B98      		cbi 43-0x20,3
+  31               	/* #APP */
+  32 0016 0000      		nop
+  33 0018 0000      		nop
+  34               	/* #NOAPP */
+  35 001a 8FB1      		in r24,47-0x20
+  36 001c 5B9A      		sbi 43-0x20,3
+  37 001e 5A98      		cbi 43-0x20,2
+  38               	/* #APP */
+  39 0020 0000      		nop
+  40 0022 0000      		nop
+  41               	/* #NOAPP */
+  42 0024 2FB1      		in r18,47-0x20
+  43 0026 5A9A      		sbi 43-0x20,2
+  44 0028 4295      		swap r20
+  45 002a 4F70      		andi r20,0x0f
+  46 002c 5527      		clr r21
+  47 002e 607F      		andi r22,lo8(-16)
+  48 0030 7727      		clr r23
+  49 0032 462B      		or r20,r22
+  50 0034 572B      		or r21,r23
+  51 0036 807F      		andi r24,lo8(-16)
+  52 0038 9927      		clr r25
+  53 003a 34E0      		ldi r19,4
+  54 003c 880F      	1:	lsl r24
+  55 003e 991F      		rol r25
+  56 0040 3A95      		dec r19
+  57 0042 01F4      		brne 1b
+GAS LISTING C:\Users\Jack\AppData\Local\Temp/ccyqDlg0.s 			page 2
+
+
+  58 0044 482B      		or r20,r24
+  59 0046 592B      		or r21,r25
+  60 0048 207F      		andi r18,lo8(-16)
+  61 004a 3327      		clr r19
+  62 004c 322F      		mov r19,r18
+  63 004e 2227      		clr r18
+  64 0050 422B      		or r20,r18
+  65 0052 532B      		or r21,r19
+  66 0054 5093 0000 		sts (KeyFound)+1,r21
+  67 0058 4093 0000 		sts KeyFound,r20
+  68               	/* epilogue: frame size=0 */
+  69 005c 0895      		ret
+  70               	/* epilogue end (size=1) */
+  71               	/* function KbScan size 55 (54) */
+  72               		.size	KbScan, .-KbScan
+  73               	.global	KbSetKeyRepeating
+  74               		.type	KbSetKeyRepeating, @function
+  75               	KbSetKeyRepeating:
+  76               	/* prologue: frame size=0 */
+  77               	/* prologue end (size=0) */
+  78 005e E82F      		mov r30,r24
+  79 0060 862F      		mov r24,r22
+  80 0062 8150      		subi r24,lo8(-(-1))
+  81 0064 8230      		cpi r24,lo8(2)
+  82 0066 00F4      		brsh .L7
+  83 0068 E031      		cpi r30,lo8(16)
+  84 006a 00F4      		brsh .L7
+  85 006c FF27      		clr r31
+  86 006e E050      		subi r30,lo8(-(KeyRepeatArray))
+  87 0070 F040      		sbci r31,hi8(-(KeyRepeatArray))
+  88 0072 6083      		st Z,r22
+  89               	.L7:
+  90 0074 0895      		ret
+  91               	/* epilogue: frame size=0 */
+  92               	/* epilogue: noreturn */
+  93               	/* epilogue end (size=0) */
+  94               	/* function KbSetKeyRepeating size 12 (12) */
+  95               		.size	KbSetKeyRepeating, .-KbSetKeyRepeating
+  96               	.global	KbGetKey
+  97               		.type	KbGetKey, @function
+  98               	KbGetKey:
+  99               	/* prologue: frame size=0 */
+ 100               	/* prologue end (size=0) */
+ 101 0076 8091 0000 		lds r24,KeyFound
+ 102 007a 9927      		clr r25
+ 103               	/* epilogue: frame size=0 */
+ 104 007c 0895      		ret
+ 105               	/* epilogue end (size=1) */
+ 106               	/* function KbGetKey size 4 (3) */
+ 107               		.size	KbGetKey, .-KbGetKey
+ 108               	.global	KbInjectKey
+ 109               		.type	KbInjectKey, @function
+ 110               	KbInjectKey:
+ 111               	/* prologue: frame size=0 */
+ 112               	/* prologue end (size=0) */
+ 113 007e 9927      		clr r25
+ 114 0080 9093 0000 		sts (KeyFound)+1,r25
+GAS LISTING C:\Users\Jack\AppData\Local\Temp/ccyqDlg0.s 			page 3
+
+
+ 115 0084 8093 0000 		sts KeyFound,r24
+ 116 0088 E091 0000 		lds r30,hKBEvent
+ 117 008c F091 0000 		lds r31,(hKBEvent)+1
+ 118 0090 3097      		sbiw r30,0
+ 119 0092 01F4      		brne .L11
+ 120 0094 8FEF      		ldi r24,lo8(-1)
+ 121 0096 9FEF      		ldi r25,hi8(-1)
+ 122 0098 9093 0000 		sts (hKBEvent)+1,r25
+ 123 009c 8093 0000 		sts hKBEvent,r24
+ 124 00a0 0895      		ret
+ 125               	.L11:
+ 126 00a2 8FEF      		ldi r24,hi8(-1)
+ 127 00a4 EF3F      		cpi r30,lo8(-1)
+ 128 00a6 F807      		cpc r31,r24
+ 129 00a8 01F0      		breq .L15
+ 130 00aa 8481      		ldd r24,Z+4
+ 131 00ac 9581      		ldd r25,Z+5
+ 132 00ae 0196      		adiw r24,1
+ 133 00b0 9583      		std Z+5,r25
+ 134 00b2 8483      		std Z+4,r24
+ 135               	.L15:
+ 136 00b4 0895      		ret
+ 137               	/* epilogue: frame size=0 */
+ 138               	/* epilogue: noreturn */
+ 139               	/* epilogue end (size=0) */
+ 140               	/* function KbInjectKey size 28 (28) */
+ 141               		.size	KbInjectKey, .-KbInjectKey
+ 142               	.global	KbInit
+ 143               		.type	KbInit, @function
+ 144               	KbInit:
+ 145               	/* prologue: frame size=0 */
+ 146               	/* prologue end (size=0) */
+ 147 00b6 A39A      		sbi 52-0x20,3
+ 148 00b8 A49A      		sbi 52-0x20,4
+ 149 00ba 5B9A      		sbi 43-0x20,3
+ 150 00bc 5A9A      		sbi 43-0x20,2
+ 151 00be 1092 0000 		sts KbState,__zero_reg__
+ 152 00c2 8FEF      		ldi r24,lo8(-1)
+ 153 00c4 9FEF      		ldi r25,hi8(-1)
+ 154 00c6 9093 0000 		sts (KeyFound)+1,r25
+ 155 00ca 8093 0000 		sts KeyFound,r24
+ 156               	/* #APP */
+ 157 00ce 0FB6      		in  __tmp_reg__, __SREG__
+ 158 00d0 F894      		cli
+ 159 00d2 0F92      		push __tmp_reg__
+ 160               		
+ 161               	/* #NOAPP */
+ 162 00d4 1092 0000 		sts (hKBEvent)+1,__zero_reg__
+ 163 00d8 1092 0000 		sts hKBEvent,__zero_reg__
+ 164               	/* #APP */
+ 165 00dc 0F90      		pop __tmp_reg__
+ 166 00de 0FBE      		out __SREG__, __tmp_reg__
+ 167               		
+ 168               	/* #NOAPP */
+ 169 00e0 8FEF      		ldi r24,lo8(-1)
+ 170 00e2 8093 0000 		sts KeyBuffer,r24
+ 171 00e6 E0E0      		ldi r30,lo8(KeyRepeatArray)
+GAS LISTING C:\Users\Jack\AppData\Local\Temp/ccyqDlg0.s 			page 4
+
+
+ 172 00e8 F0E0      		ldi r31,hi8(KeyRepeatArray)
+ 173 00ea 82E0      		ldi r24,lo8(2)
+ 174               	.L17:
+ 175 00ec 8193      		st Z+,r24
+ 176 00ee 90E0      		ldi r25,hi8(KeyRepeatArray+16)
+ 177 00f0 E030      		cpi r30,lo8(KeyRepeatArray+16)
+ 178 00f2 F907      		cpc r31,r25
+ 179 00f4 01F4      		brne .L17
+ 180 00f6 1092 0000 		sts (HoldCounter)+1,__zero_reg__
+ 181 00fa 1092 0000 		sts HoldCounter,__zero_reg__
+ 182 00fe 61E0      		ldi r22,lo8(1)
+ 183 0100 88E0      		ldi r24,lo8(8)
+ 184 0102 0E94 0000 		call KbSetKeyRepeating
+ 185 0106 61E0      		ldi r22,lo8(1)
+ 186 0108 8BE0      		ldi r24,lo8(11)
+ 187 010a 0E94 0000 		call KbSetKeyRepeating
+ 188 010e 61E0      		ldi r22,lo8(1)
+ 189 0110 8AE0      		ldi r24,lo8(10)
+ 190 0112 0E94 0000 		call KbSetKeyRepeating
+ 191 0116 61E0      		ldi r22,lo8(1)
+ 192 0118 8CE0      		ldi r24,lo8(12)
+ 193 011a 0E94 0000 		call KbSetKeyRepeating
+ 194               	/* epilogue: frame size=0 */
+ 195 011e 0895      		ret
+ 196               	/* epilogue end (size=1) */
+ 197               	/* function KbInit size 62 (61) */
+ 198               		.size	KbInit, .-KbInit
+ 199               	.global	KbWaitForKeyEvent
+ 200               		.type	KbWaitForKeyEvent, @function
+ 201               	KbWaitForKeyEvent:
+ 202               	/* prologue: frame size=0 */
+ 203               	/* prologue end (size=0) */
+ 204 0120 AB01      		movw r20,r22
+ 205 0122 BC01      		movw r22,r24
+ 206 0124 80E0      		ldi r24,lo8(hKBEvent)
+ 207 0126 90E0      		ldi r25,hi8(hKBEvent)
+ 208 0128 0E94 0000 		call NutEventWait
+ 209 012c 20E0      		ldi r18,lo8(0)
+ 210 012e 30E0      		ldi r19,hi8(0)
+ 211 0130 8F5F      		subi r24,lo8(-1)
+ 212 0132 9F4F      		sbci r25,hi8(-1)
+ 213 0134 01F4      		brne .L23
+ 214 0136 21E0      		ldi r18,lo8(1)
+ 215 0138 30E0      		ldi r19,hi8(1)
+ 216               	.L23:
+ 217 013a C901      		movw r24,r18
+ 218               	/* epilogue: frame size=0 */
+ 219 013c 0895      		ret
+ 220               	/* epilogue end (size=1) */
+ 221               	/* function KbWaitForKeyEvent size 16 (15) */
+ 222               		.size	KbWaitForKeyEvent, .-KbWaitForKeyEvent
+ 223               		.lcomm hKBEvent,2
+ 224               		.lcomm KeyFound,2
+ 225               		.lcomm KeyBuffer,1
+ 226               		.lcomm HoldCounter,2
+ 227               		.lcomm KbState,1
+ 228               		.lcomm KeyRepeatArray,16
+GAS LISTING C:\Users\Jack\AppData\Local\Temp/ccyqDlg0.s 			page 5
+
+
+ 229               	/* File "source/keyboard.c": code  177 = 0x00b1 ( 173), prologues   0, epilogues   4 */
+GAS LISTING C:\Users\Jack\AppData\Local\Temp/ccyqDlg0.s 			page 6
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 keyboard.c
+C:\Users\Jack\AppData\Local\Temp/ccyqDlg0.s:3      *ABS*:0000003f __SREG__
+C:\Users\Jack\AppData\Local\Temp/ccyqDlg0.s:4      *ABS*:0000003e __SP_H__
+C:\Users\Jack\AppData\Local\Temp/ccyqDlg0.s:5      *ABS*:0000003d __SP_L__
+C:\Users\Jack\AppData\Local\Temp/ccyqDlg0.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\Jack\AppData\Local\Temp/ccyqDlg0.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\Jack\AppData\Local\Temp/ccyqDlg0.s:13     .text:00000000 KbScan
+C:\Users\Jack\AppData\Local\Temp/ccyqDlg0.s:223    .bss:00000002 KeyFound
+C:\Users\Jack\AppData\Local\Temp/ccyqDlg0.s:75     .text:0000005e KbSetKeyRepeating
+C:\Users\Jack\AppData\Local\Temp/ccyqDlg0.s:227    .bss:00000008 KeyRepeatArray
+C:\Users\Jack\AppData\Local\Temp/ccyqDlg0.s:98     .text:00000076 KbGetKey
+C:\Users\Jack\AppData\Local\Temp/ccyqDlg0.s:110    .text:0000007e KbInjectKey
+                             .bss:00000000 hKBEvent
+C:\Users\Jack\AppData\Local\Temp/ccyqDlg0.s:144    .text:000000b6 KbInit
+C:\Users\Jack\AppData\Local\Temp/ccyqDlg0.s:226    .bss:00000007 KbState
+C:\Users\Jack\AppData\Local\Temp/ccyqDlg0.s:224    .bss:00000004 KeyBuffer
+C:\Users\Jack\AppData\Local\Temp/ccyqDlg0.s:225    .bss:00000005 HoldCounter
+C:\Users\Jack\AppData\Local\Temp/ccyqDlg0.s:201    .text:00000120 KbWaitForKeyEvent
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
+NutEventWait
