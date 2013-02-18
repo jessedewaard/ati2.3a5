@@ -37,6 +37,13 @@
 #define READ_COMMAND      			0x04      // 0000 0100 B
 #define READ_DATA         			0x06      // 0000 0110 B
 
+#define INET_CONNECTED_SYMBOL		{138,138,159,159,142,132,132,132}
+#define WEKKER_AAN					{142,149,149,149,151,145,145,142}
+#define NTP_SYNC					{128,130,159,130,136,159,136,128}
+#define ARROW_UP					{128,128,132,142,159,128,128,128}
+#define ARROW_DOWN					{128,128,128,159,142,132,128,128}
+
+
 
 /*-------------------------------------------------------------------------*/
 /* typedefs & structs                                                      */
@@ -49,10 +56,16 @@
 /*-------------------------------------------------------------------------*/
 /* export global routines (interface)                                      */
 /*-------------------------------------------------------------------------*/
+static void LcdWriteByte(u_char, u_char);
 extern void LcdChar(char);
 extern void LcdBackLight(u_char);
 extern void LcdInit(void);
 extern void LcdLowLevelInit(void);
+void LcdSetCursorPosition(char, char);
+void ClearLcdScreen();
+void PrintStr(char*);
+void BufferLoader(char*, char*);
+void LoadCustomChars(char *, char);
 
 #endif /* _Display_H */
 /*  様様  End Of File  様様様様 様様様様様様様様様様様様様様様様様様様様様様 */

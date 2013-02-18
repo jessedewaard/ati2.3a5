@@ -155,7 +155,7 @@ void KbScan()
     KeyFound |= (KeyNibble1 & 0x00F0);          // b7..b4 in 'KeyNibble1' to b7...b4  in 'KeyFound' -- do nothing
     KeyFound |= ((KeyNibble2<<4) & 0x0F00);     // b7..b4 in 'KeyNibble2' to b11..b8  in 'KeyFound' << shift 4 left
     KeyFound |= ((KeyNibble3<<8) & 0xF000);     // b7..b4 in 'KeyNibble3' to b15..b12 in 'KeyFound' << shift 8 left
-
+    KeyBuffer[0] = KbRemapKey(KeyFound);
 
 #endif  // USE_JTAG
 
@@ -263,7 +263,16 @@ int KbWaitForKeyEvent(u_long dwTimeout)
 /* อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ */
 u_char KbGetKey()
 {
-    return(KeyFound);
+    //return(KbRemapKey(KeyBuffer[0]));
+	return KeyBuffer[0];
+	//1=?
+	//2=253
+	//3=127
+	//4=247
+	//5=254
+	//alt=?
+	//esc=239
+	//ok=223
 }
 
 /*!
@@ -272,7 +281,7 @@ u_char KbGetKey()
  */
 void KbInjectKey(u_char VirtualKey)
 {
-    KeyFound=VirtualKey;
+    KeyBuffer[0]=VirtualKey;
     NutEventPostFromIrq(&hKBEvent);   // 'valid key' detected -> generate Event
 }
 /* อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ */

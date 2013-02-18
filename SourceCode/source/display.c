@@ -38,7 +38,6 @@
 /*-------------------------------------------------------------------------*/
 /* local routines (prototyping)                                            */
 /*-------------------------------------------------------------------------*/
-static void LcdWriteByte(u_char, u_char);
 static void LcdWriteNibble(u_char, u_char);
 static void LcdWaitBusy(void);
 
@@ -126,19 +125,49 @@ void LcdChar(char MyChar)
     LcdWriteByte(WRITE_COMMAND, 0x80);          // DD-RAM address counter (cursor pos) to '0'
 }
 
-
-/* อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ */
-/*!
- * \brief Reset display
- *
- * Reset the display screen and cursor posisiion
- *
- */
-/* อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ */
-void lcdClear()
+/*
+*	Functie om scherm te wissen en cursor naar positie 0,0 terug te brengen
+*/
+void ClearLcdScreen()
 {
-	LcdWriteByte(WRITE_COMMAND, 0x01);          // display clear
+    LcdWriteByte(WRITE_COMMAND,0x01);   //Scherm clearen
+	LcdWriteByte(WRITE_COMMAND,0x02);	//Reset de cursor
 }
+
+/*
+*	Functie cursor naar bepaalde row / colom te brengen en daar te beginnen met typen
+*/
+
+void LcdSetCursorPosition(char Row, char Col)
+{
+    char address;
+
+    
+    if (Row == 0)
+    {
+        address = 0;
+    }
+    else
+    {
+        address = 0x40;
+    }
+
+    address |= Col;
+
+    LcdWriteByte(WRITE_COMMAND,0x80 | address);
+}
+
+void LoadCustomChars(char *custom, char numberofchars) //64bytes 64-127
+{
+	//char buff [7];
+	LcdWriteByte(WRITE_COMMAND,64);
+	int i;
+	for(i = 0; i < (numberofchars * 8); i++){
+		LcdWriteByte(WRITE_DATA,custom[i]);
+		//NutDelay(5);
+	}
+}
+
 
 /* อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ */
 /*!
@@ -229,6 +258,38 @@ static void LcdWaitBusy()
     cbi (LCD_EN_PORT, LCD_EN);              // all ctrlpins low
     cbi (LCD_RS_PORT, LCD_RS);
     cbi (LCD_RW_PORT, LCD_RW);              // we are going to write
+}
+
+/*
+*	Functie om string op scherm te plaatsen.
+*/
+
+void PrintStr(char *Text)
+{
+    char *c;
+
+    c = Text;
+
+    while ((c != 0) && (*c != 0))
+    {
+        LcdChar(*c);
+        c++;
+    }
+}
+
+/*
+*	Functie om lcd te laden met buffer (Mainbeat)
+*/
+
+void LcdBufferLoader(char *Textr0, char *Textr1)
+{
+	LcdSetCursorPosition(0,0);	//Cursor home
+	
+	PrintStr(Textr0);			//Schrijf eerste buffer weg
+	
+	LcdSetCursorPosition(1,0);	//Cursor home op 2e regel
+	
+	PrintStr(Textr1);			//Schrijf 2e buffer weg;
 }
 
 /* ---------- end of module ------------------------------------------------ */

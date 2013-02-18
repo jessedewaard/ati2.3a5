@@ -1,0 +1,806 @@
+GAS LISTING C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s 			page 1
+
+
+   1               		.file	"EthernetSIR.c"
+   2               		.arch atmega2561
+   3               	__SREG__ = 0x3f
+   4               	__SP_H__ = 0x3e
+   5               	__SP_L__ = 0x3d
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  10               		.text
+  11               		.type	MyHandler, @function
+  12               	MyHandler:
+  13               	/* prologue: frame size=0 */
+  14 0000 0F93      		push r16
+  15 0002 1F93      		push r17
+  16               	/* prologue end (size=2) */
+  17 0004 E091 0000 		lds r30,default_handler
+  18 0008 F091 0000 		lds r31,(default_handler)+1
+  19 000c 1995      		eicall
+  20               	/* epilogue: frame size=0 */
+  21 000e 1F91      		pop r17
+  22 0010 0F91      		pop r16
+  23 0012 0895      		ret
+  24               	/* epilogue end (size=3) */
+  25               	/* function MyHandler size 10 (5) */
+  26               		.size	MyHandler, .-MyHandler
+  27               	.global	clientClose
+  28               		.type	clientClose, @function
+  29               	clientClose:
+  30               	/* prologue: frame size=0 */
+  31               	/* prologue end (size=0) */
+  32 0014 0E94 0000 		call NutTcpCloseSocket
+  33               	/* epilogue: frame size=0 */
+  34 0018 0895      		ret
+  35               	/* epilogue end (size=1) */
+  36               	/* function clientClose size 3 (2) */
+  37               		.size	clientClose, .-clientClose
+  38               	.global	clientReceive
+  39               		.type	clientReceive, @function
+  40               	clientReceive:
+  41               	/* prologue: frame size=0 */
+  42 001a CF93      		push r28
+  43 001c DF93      		push r29
+  44               	/* prologue end (size=2) */
+  45 001e 0E94 0000 		call NutTcpReceive
+  46 0022 EC01      		movw r28,r24
+  47 0024 1816      		cp __zero_reg__,r24
+  48 0026 1906      		cpc __zero_reg__,r25
+  49 0028 04F0      		brlt .L6
+  50 002a 80E0      		ldi r24,lo8(__c.2777)
+  51 002c 90E0      		ldi r25,hi8(__c.2777)
+  52 002e 9F93      		push r25
+  53 0030 8F93      		push r24
+  54 0032 86ED      		ldi r24,lo8(-42)
+  55 0034 8F93      		push r24
+  56 0036 0E94 0000 		call LogMsg_P
+  57 003a 0F90      		pop __tmp_reg__
+GAS LISTING C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s 			page 2
+
+
+  58 003c 0F90      		pop __tmp_reg__
+  59 003e 0F90      	 	pop __tmp_reg__
+  60               	.L6:
+  61 0040 CE01      		movw r24,r28
+  62               	/* epilogue: frame size=0 */
+  63 0042 DF91      		pop r29
+  64 0044 CF91      		pop r28
+  65 0046 0895      		ret
+  66               	/* epilogue end (size=3) */
+  67               	/* function clientReceive size 23 (18) */
+  68               		.size	clientReceive, .-clientReceive
+  69               	.global	clientSend
+  70               		.type	clientSend, @function
+  71               	clientSend:
+  72               	/* prologue: frame size=0 */
+  73 0048 0F93      		push r16
+  74 004a 1F93      		push r17
+  75               	/* prologue end (size=2) */
+  76 004c 8A01      		movw r16,r20
+  77 004e 0E94 0000 		call NutTcpSend
+  78 0052 8017      		cp r24,r16
+  79 0054 9107      		cpc r25,r17
+  80 0056 01F0      		breq .L10
+  81 0058 80E0      		ldi r24,lo8(__c.2765)
+  82 005a 90E0      		ldi r25,hi8(__c.2765)
+  83 005c 00C0      		rjmp .L14
+  84               	.L10:
+  85 005e 80E0      		ldi r24,lo8(__c.2767)
+  86 0060 90E0      		ldi r25,hi8(__c.2767)
+  87               	.L14:
+  88 0062 9F93      		push r25
+  89 0064 8F93      		push r24
+  90 0066 86ED      		ldi r24,lo8(-42)
+  91 0068 8F93      		push r24
+  92 006a 0E94 0000 		call LogMsg_P
+  93 006e 0F90      		pop __tmp_reg__
+  94 0070 0F90      		pop __tmp_reg__
+  95 0072 0F90      	 	pop __tmp_reg__
+  96               	/* epilogue: frame size=0 */
+  97 0074 1F91      		pop r17
+  98 0076 0F91      		pop r16
+  99 0078 0895      		ret
+ 100               	/* epilogue end (size=3) */
+ 101               	/* function clientSend size 25 (20) */
+ 102               		.size	clientSend, .-clientSend
+ 103               		.data
+ 104               	.LC0:
+ 105 0000 3137 332E 		.string	"173.194.67.94"
+ 105      3139 342E 
+ 105      3637 2E39 
+ 105      3400 
+ 106               		.text
+ 107               	.global	clientConnect
+ 108               		.type	clientConnect, @function
+ 109               	clientConnect:
+ 110               	/* prologue: frame size=0 */
+ 111 007a 0F93      		push r16
+GAS LISTING C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s 			page 3
+
+
+ 112 007c 1F93      		push r17
+ 113               	/* prologue end (size=2) */
+ 114 007e 8C01      		movw r16,r24
+ 115 0080 80E0      		ldi r24,lo8(.LC0)
+ 116 0082 90E0      		ldi r25,hi8(.LC0)
+ 117 0084 0E94 0000 		call inet_addr
+ 118 0088 AB01      		movw r20,r22
+ 119 008a BC01      		movw r22,r24
+ 120 008c 20E5      		ldi r18,lo8(80)
+ 121 008e 30E0      		ldi r19,hi8(80)
+ 122 0090 C801      		movw r24,r16
+ 123 0092 0E94 0000 		call NutTcpConnect
+ 124 0096 892B      		or r24,r25
+ 125 0098 01F0      		breq .L18
+ 126 009a 80E0      		ldi r24,lo8(__c.2756)
+ 127 009c 90E0      		ldi r25,hi8(__c.2756)
+ 128 009e 9F93      		push r25
+ 129 00a0 8F93      		push r24
+ 130 00a2 86ED      		ldi r24,lo8(-42)
+ 131 00a4 8F93      		push r24
+ 132 00a6 0E94 0000 		call LogMsg_P
+ 133 00aa 0F90      		pop __tmp_reg__
+ 134 00ac 0F90      		pop __tmp_reg__
+ 135 00ae 0F90      	 	pop __tmp_reg__
+ 136               	.L18:
+ 137               	/* epilogue: frame size=0 */
+ 138 00b0 1F91      		pop r17
+ 139 00b2 0F91      		pop r16
+ 140 00b4 0895      		ret
+ 141               	/* epilogue end (size=3) */
+ 142               	/* function clientConnect size 30 (25) */
+ 143               		.size	clientConnect, .-clientConnect
+ 144               		.data
+ 145               	.LC1:
+ 146 000e 3738 2E31 		.string	"78.192.65.63"
+ 146      3932 2E36 
+ 146      352E 3633 
+ 146      00
+ 147               		.text
+ 148               	.global	getNTPTime
+ 149               		.type	getNTPTime, @function
+ 150               	getNTPTime:
+ 151               	/* prologue: frame size=8 */
+ 152 00b6 CF92      		push r12
+ 153 00b8 DF92      		push r13
+ 154 00ba EF92      		push r14
+ 155 00bc FF92      		push r15
+ 156 00be 0F93      		push r16
+ 157 00c0 1F93      		push r17
+ 158 00c2 CF93      		push r28
+ 159 00c4 DF93      		push r29
+ 160 00c6 CDB7      		in r28,__SP_L__
+ 161 00c8 DEB7      		in r29,__SP_H__
+ 162 00ca 2897      		sbiw r28,8
+ 163 00cc 0FB6      		in __tmp_reg__,__SREG__
+ 164 00ce F894      		cli
+ 165 00d0 DEBF      		out __SP_H__,r29
+GAS LISTING C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s 			page 4
+
+
+ 166 00d2 0FBE      		out __SREG__,__tmp_reg__
+ 167 00d4 CDBF      		out __SP_L__,r28
+ 168               	/* prologue end (size=16) */
+ 169 00d6 7C01      		movw r14,r24
+ 170 00d8 1D82      		std Y+5,__zero_reg__
+ 171 00da 1E82      		std Y+6,__zero_reg__
+ 172 00dc 1F82      		std Y+7,__zero_reg__
+ 173 00de 1886      		std Y+8,__zero_reg__
+ 174 00e0 1982      		std Y+1,__zero_reg__
+ 175 00e2 1A82      		std Y+2,__zero_reg__
+ 176 00e4 1B82      		std Y+3,__zero_reg__
+ 177 00e6 1C82      		std Y+4,__zero_reg__
+ 178 00e8 80EF      		ldi r24,lo8(-3600)
+ 179 00ea 91EF      		ldi r25,hi8(-3600)
+ 180 00ec AFEF      		ldi r26,hlo8(-3600)
+ 181 00ee BFEF      		ldi r27,hhi8(-3600)
+ 182 00f0 8093 0000 		sts _timezone,r24
+ 183 00f4 9093 0000 		sts (_timezone)+1,r25
+ 184 00f8 A093 0000 		sts (_timezone)+2,r26
+ 185 00fc B093 0000 		sts (_timezone)+3,r27
+ 186 0100 80E0      		ldi r24,lo8(__c.2731)
+ 187 0102 90E0      		ldi r25,hi8(__c.2731)
+ 188 0104 9F93      		push r25
+ 189 0106 8F93      		push r24
+ 190 0108 86ED      		ldi r24,lo8(-42)
+ 191 010a 8F93      		push r24
+ 192 010c 0E94 0000 		call LogMsg_P
+ 193 0110 80E0      		ldi r24,lo8(.LC1)
+ 194 0112 90E0      		ldi r25,hi8(.LC1)
+ 195 0114 0E94 0000 		call inet_addr
+ 196 0118 6983      		std Y+1,r22
+ 197 011a 7A83      		std Y+2,r23
+ 198 011c 8B83      		std Y+3,r24
+ 199 011e 9C83      		std Y+4,r25
+ 200 0120 04E1      		ldi r16,lo8(20)
+ 201 0122 10E0      		ldi r17,hi8(20)
+ 202 0124 0F90      		pop __tmp_reg__
+ 203 0126 0F90      		pop __tmp_reg__
+ 204 0128 0F90      	 	pop __tmp_reg__
+ 205               	.L20:
+ 206 012a 85E0      		ldi r24,lo8(5)
+ 207 012c C82E      		mov r12,r24
+ 208 012e D12C      		mov r13,__zero_reg__
+ 209 0130 CC0E      		add r12,r28
+ 210 0132 DD1E      		adc r13,r29
+ 211 0134 B601      		movw r22,r12
+ 212 0136 CE01      		movw r24,r28
+ 213 0138 0196      		adiw r24,1
+ 214 013a 0E94 0000 		call NutSNTPGetTime
+ 215 013e 892B      		or r24,r25
+ 216 0140 01F0      		breq .L21
+ 217 0142 68EE      		ldi r22,lo8(1000)
+ 218 0144 73E0      		ldi r23,hi8(1000)
+ 219 0146 80E0      		ldi r24,hlo8(1000)
+ 220 0148 90E0      		ldi r25,hhi8(1000)
+ 221 014a 0E94 0000 		call NutSleep
+ 222 014e 1F93      		push r17
+GAS LISTING C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s 			page 5
+
+
+ 223 0150 0F93      		push r16
+ 224 0152 80E0      		ldi r24,lo8(__c.2735)
+ 225 0154 90E0      		ldi r25,hi8(__c.2735)
+ 226 0156 9F93      		push r25
+ 227 0158 8F93      		push r24
+ 228 015a 86ED      		ldi r24,lo8(-42)
+ 229 015c 8F93      		push r24
+ 230 015e 0E94 0000 		call LogMsg_P
+ 231 0162 0150      		subi r16,lo8(-(-1))
+ 232 0164 1040      		sbci r17,hi8(-(-1))
+ 233 0166 0F90      		pop __tmp_reg__
+ 234 0168 0F90      		pop __tmp_reg__
+ 235 016a 0F90      		pop __tmp_reg__
+ 236 016c 0F90      		pop __tmp_reg__
+ 237 016e 0F90      		pop __tmp_reg__
+ 238 0170 01F4      		brne .L20
+ 239               	.L21:
+ 240 0172 C601      		movw r24,r12
+ 241 0174 0E94 0000 		call localtime
+ 242 0178 8C01      		movw r16,r24
+ 243 017a FC01      		movw r30,r24
+ 244 017c 8081      		ld r24,Z
+ 245 017e 9181      		ldd r25,Z+1
+ 246 0180 9F93      		push r25
+ 247 0182 8F93      		push r24
+ 248 0184 8281      		ldd r24,Z+2
+ 249 0186 9381      		ldd r25,Z+3
+ 250 0188 9F93      		push r25
+ 251 018a 8F93      		push r24
+ 252 018c 8481      		ldd r24,Z+4
+ 253 018e 9581      		ldd r25,Z+5
+ 254 0190 9F93      		push r25
+ 255 0192 8F93      		push r24
+ 256 0194 80E0      		ldi r24,lo8(__c.2739)
+ 257 0196 90E0      		ldi r25,hi8(__c.2739)
+ 258 0198 9F93      		push r25
+ 259 019a 8F93      		push r24
+ 260 019c 86ED      		ldi r24,lo8(-42)
+ 261 019e 8F93      		push r24
+ 262 01a0 0E94 0000 		call LogMsg_P
+ 263 01a4 F801      		movw r30,r16
+ 264 01a6 A481      		ldd r26,Z+4
+ 265 01a8 B581      		ldd r27,Z+5
+ 266 01aa C280      		ldd r12,Z+2
+ 267 01ac D380      		ldd r13,Z+3
+ 268 01ae 6081      		ld r22,Z
+ 269 01b0 7181      		ldd r23,Z+1
+ 270 01b2 4681      		ldd r20,Z+6
+ 271 01b4 5781      		ldd r21,Z+7
+ 272 01b6 2085      		ldd r18,Z+8
+ 273 01b8 3185      		ldd r19,Z+9
+ 274 01ba 8285      		ldd r24,Z+10
+ 275 01bc 9385      		ldd r25,Z+11
+ 276 01be F701      		movw r30,r14
+ 277 01c0 9387      		std Z+11,r25
+ 278 01c2 8287      		std Z+10,r24
+ 279 01c4 3187      		std Z+9,r19
+GAS LISTING C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s 			page 6
+
+
+ 280 01c6 2087      		std Z+8,r18
+ 281 01c8 5783      		std Z+7,r21
+ 282 01ca 4683      		std Z+6,r20
+ 283 01cc 7183      		std Z+1,r23
+ 284 01ce 6083      		st Z,r22
+ 285 01d0 D382      		std Z+3,r13
+ 286 01d2 C282      		std Z+2,r12
+ 287 01d4 B583      		std Z+5,r27
+ 288 01d6 A483      		std Z+4,r26
+ 289 01d8 8DB7      		in r24,__SP_L__
+ 290 01da 9EB7      		in r25,__SP_H__
+ 291 01dc 0996      		adiw r24,9
+ 292 01de 0FB6      		in __tmp_reg__,__SREG__
+ 293 01e0 F894      		cli
+ 294 01e2 9EBF      		out __SP_H__,r25
+ 295 01e4 0FBE      		out __SREG__,__tmp_reg__
+ 296 01e6 8DBF      		out __SP_L__,r24
+ 297 01e8 C701      		movw r24,r14
+ 298               	/* epilogue: frame size=8 */
+ 299 01ea 2896      		adiw r28,8
+ 300 01ec 0FB6      		in __tmp_reg__,__SREG__
+ 301 01ee F894      		cli
+ 302 01f0 DEBF      		out __SP_H__,r29
+ 303 01f2 0FBE      		out __SREG__,__tmp_reg__
+ 304 01f4 CDBF      		out __SP_L__,r28
+ 305 01f6 DF91      		pop r29
+ 306 01f8 CF91      		pop r28
+ 307 01fa 1F91      		pop r17
+ 308 01fc 0F91      		pop r16
+ 309 01fe FF90      		pop r15
+ 310 0200 EF90      		pop r14
+ 311 0202 DF90      		pop r13
+ 312 0204 CF90      		pop r12
+ 313 0206 0895      		ret
+ 314               	/* epilogue end (size=15) */
+ 315               	/* function getNTPTime size 171 (140) */
+ 316               		.size	getNTPTime, .-getNTPTime
+ 317               		.data
+ 318               	.LC2:
+ 319 001b 3139 322E 		.string	"192.168.0.111"
+ 319      3136 382E 
+ 319      302E 3131 
+ 319      3100 
+ 320               	.LC3:
+ 321 0029 3235 352E 		.string	"255.255.255.0"
+ 321      3235 352E 
+ 321      3235 352E 
+ 321      3000 
+ 322               	.LC4:
+ 323 0037 6574 6830 		.string	"eth0"
+ 323      00
+ 324               		.text
+ 325               	.global	initNetworkStatic
+ 326               		.type	initNetworkStatic, @function
+ 327               	initNetworkStatic:
+ 328               	/* prologue: frame size=6 */
+ 329 0208 AF92      		push r10
+GAS LISTING C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s 			page 7
+
+
+ 330 020a BF92      		push r11
+ 331 020c CF92      		push r12
+ 332 020e DF92      		push r13
+ 333 0210 EF92      		push r14
+ 334 0212 FF92      		push r15
+ 335 0214 0F93      		push r16
+ 336 0216 1F93      		push r17
+ 337 0218 CF93      		push r28
+ 338 021a DF93      		push r29
+ 339 021c CDB7      		in r28,__SP_L__
+ 340 021e DEB7      		in r29,__SP_H__
+ 341 0220 2697      		sbiw r28,6
+ 342 0222 0FB6      		in __tmp_reg__,__SREG__
+ 343 0224 F894      		cli
+ 344 0226 DEBF      		out __SP_H__,r29
+ 345 0228 0FBE      		out __SREG__,__tmp_reg__
+ 346 022a CDBF      		out __SP_L__,r28
+ 347               	/* prologue end (size=18) */
+ 348 022c DE01      		movw r26,r28
+ 349 022e 1196      		adiw r26,1
+ 350 0230 E0E0      		ldi r30,lo8(C.0.2679)
+ 351 0232 F0E0      		ldi r31,hi8(C.0.2679)
+ 352 0234 86E0      		ldi r24,lo8(6)
+ 353               	.L26:
+ 354 0236 0190      		ld r0,Z+
+ 355 0238 0D92      		st X+,r0
+ 356 023a 8150      		subi r24,lo8(-(-1))
+ 357 023c 01F4      		brne .L26
+ 358 023e 80E0      		ldi r24,lo8(.LC2)
+ 359 0240 90E0      		ldi r25,hi8(.LC2)
+ 360 0242 0E94 0000 		call inet_addr
+ 361 0246 5B01      		movw r10,r22
+ 362 0248 6C01      		movw r12,r24
+ 363 024a 80E0      		ldi r24,lo8(.LC3)
+ 364 024c 90E0      		ldi r25,hi8(.LC3)
+ 365 024e 0E94 0000 		call inet_addr
+ 366 0252 7B01      		movw r14,r22
+ 367 0254 8C01      		movw r16,r24
+ 368 0256 40E0      		ldi r20,lo8(0)
+ 369 0258 60E0      		ldi r22,lo8(0)
+ 370 025a 70E0      		ldi r23,hi8(0)
+ 371 025c 80E0      		ldi r24,lo8(devEth0)
+ 372 025e 90E0      		ldi r25,hi8(devEth0)
+ 373 0260 0E94 0000 		call NutRegisterDevice
+ 374 0264 892B      		or r24,r25
+ 375 0266 01F0      		breq .L27
+ 376 0268 80E0      		ldi r24,lo8(0)
+ 377 026a 90E0      		ldi r25,hi8(0)
+ 378 026c 00C0      		rjmp .L29
+ 379               	.L27:
+ 380 026e A601      		movw r20,r12
+ 381 0270 9501      		movw r18,r10
+ 382 0272 BE01      		movw r22,r28
+ 383 0274 6F5F      		subi r22,lo8(-(1))
+ 384 0276 7F4F      		sbci r23,hi8(-(1))
+ 385 0278 80E0      		ldi r24,lo8(.LC4)
+ 386 027a 90E0      		ldi r25,hi8(.LC4)
+GAS LISTING C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s 			page 8
+
+
+ 387 027c 0E94 0000 		call NutNetIfConfig
+ 388 0280 892B      		or r24,r25
+ 389 0282 01F0      		breq .L30
+ 390 0284 81E0      		ldi r24,lo8(1)
+ 391 0286 90E0      		ldi r25,hi8(1)
+ 392 0288 00C0      		rjmp .L29
+ 393               	.L30:
+ 394 028a 82E0      		ldi r24,lo8(2)
+ 395 028c 90E0      		ldi r25,hi8(2)
+ 396               	.L29:
+ 397               	/* epilogue: frame size=6 */
+ 398 028e 2696      		adiw r28,6
+ 399 0290 0FB6      		in __tmp_reg__,__SREG__
+ 400 0292 F894      		cli
+ 401 0294 DEBF      		out __SP_H__,r29
+ 402 0296 0FBE      		out __SREG__,__tmp_reg__
+ 403 0298 CDBF      		out __SP_L__,r28
+ 404 029a DF91      		pop r29
+ 405 029c CF91      		pop r28
+ 406 029e 1F91      		pop r17
+ 407 02a0 0F91      		pop r16
+ 408 02a2 FF90      		pop r15
+ 409 02a4 EF90      		pop r14
+ 410 02a6 DF90      		pop r13
+ 411 02a8 CF90      		pop r12
+ 412 02aa BF90      		pop r11
+ 413 02ac AF90      		pop r10
+ 414 02ae 0895      		ret
+ 415               	/* epilogue end (size=17) */
+ 416               	/* function initNetworkStatic size 85 (50) */
+ 417               		.size	initNetworkStatic, .-initNetworkStatic
+ 418               	.global	initNetworkDHCP
+ 419               		.type	initNetworkDHCP, @function
+ 420               	initNetworkDHCP:
+ 421               	/* prologue: frame size=6 */
+ 422 02b0 8F92      		push r8
+ 423 02b2 9F92      		push r9
+ 424 02b4 AF92      		push r10
+ 425 02b6 BF92      		push r11
+ 426 02b8 CF92      		push r12
+ 427 02ba DF92      		push r13
+ 428 02bc EF92      		push r14
+ 429 02be FF92      		push r15
+ 430 02c0 0F93      		push r16
+ 431 02c2 1F93      		push r17
+ 432 02c4 CF93      		push r28
+ 433 02c6 DF93      		push r29
+ 434 02c8 CDB7      		in r28,__SP_L__
+ 435 02ca DEB7      		in r29,__SP_H__
+ 436 02cc 2697      		sbiw r28,6
+ 437 02ce 0FB6      		in __tmp_reg__,__SREG__
+ 438 02d0 F894      		cli
+ 439 02d2 DEBF      		out __SP_H__,r29
+ 440 02d4 0FBE      		out __SREG__,__tmp_reg__
+ 441 02d6 CDBF      		out __SP_L__,r28
+ 442               	/* prologue end (size=20) */
+ 443 02d8 40E0      		ldi r20,lo8(0)
+GAS LISTING C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s 			page 9
+
+
+ 444 02da 60E0      		ldi r22,lo8(0)
+ 445 02dc 70E0      		ldi r23,hi8(0)
+ 446 02de 80E0      		ldi r24,lo8(devEth0)
+ 447 02e0 90E0      		ldi r25,hi8(devEth0)
+ 448 02e2 0E94 0000 		call NutRegisterDevice
+ 449 02e6 892B      		or r24,r25
+ 450 02e8 01F0      		breq .L36
+ 451 02ea 80E0      		ldi r24,lo8(__c.2688)
+ 452 02ec 90E0      		ldi r25,hi8(__c.2688)
+ 453 02ee 9F93      		push r25
+ 454 02f0 8F93      		push r24
+ 455 02f2 86ED      		ldi r24,lo8(-42)
+ 456 02f4 8F93      		push r24
+ 457 02f6 0E94 0000 		call LogMsg_P
+ 458 02fa 0F90      		pop __tmp_reg__
+ 459 02fc 0F90      		pop __tmp_reg__
+ 460 02fe 0F90      	 	pop __tmp_reg__
+ 461 0300 00C0      		rjmp .L38
+ 462               	.L36:
+ 463 0302 20E0      		ldi r18,lo8(0)
+ 464 0304 30E0      		ldi r19,hi8(0)
+ 465 0306 40E0      		ldi r20,hlo8(0)
+ 466 0308 50E0      		ldi r21,hhi8(0)
+ 467 030a 60E0      		ldi r22,lo8(0)
+ 468 030c 70E0      		ldi r23,hi8(0)
+ 469 030e 80E0      		ldi r24,lo8(.LC4)
+ 470 0310 90E0      		ldi r25,hi8(.LC4)
+ 471 0312 0E94 0000 		call NutDhcpIfConfig
+ 472 0316 892B      		or r24,r25
+ 473 0318 01F0      		breq .L38
+ 474 031a DE01      		movw r26,r28
+ 475 031c 1196      		adiw r26,1
+ 476 031e E0E0      		ldi r30,lo8(C.1.2701)
+ 477 0320 F0E0      		ldi r31,hi8(C.1.2701)
+ 478 0322 86E0      		ldi r24,lo8(6)
+ 479               	.L40:
+ 480 0324 0190      		ld r0,Z+
+ 481 0326 0D92      		st X+,r0
+ 482 0328 8150      		subi r24,lo8(-(-1))
+ 483 032a 01F4      		brne .L40
+ 484 032c 20E0      		ldi r18,lo8(0)
+ 485 032e 30E0      		ldi r19,hi8(0)
+ 486 0330 40E0      		ldi r20,hlo8(0)
+ 487 0332 50E0      		ldi r21,hhi8(0)
+ 488 0334 4E01      		movw r8,r28
+ 489 0336 0894      		sec
+ 490 0338 811C      		adc r8,__zero_reg__
+ 491 033a 911C      		adc r9,__zero_reg__
+ 492 033c B401      		movw r22,r8
+ 493 033e 80E0      		ldi r24,lo8(.LC4)
+ 494 0340 90E0      		ldi r25,hi8(.LC4)
+ 495 0342 0E94 0000 		call NutDhcpIfConfig
+ 496 0346 892B      		or r24,r25
+ 497 0348 01F0      		breq .L38
+ 498 034a 80E0      		ldi r24,lo8(.LC2)
+ 499 034c 90E0      		ldi r25,hi8(.LC2)
+ 500 034e 0E94 0000 		call inet_addr
+GAS LISTING C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s 			page 10
+
+
+ 501 0352 5B01      		movw r10,r22
+ 502 0354 6C01      		movw r12,r24
+ 503 0356 80E0      		ldi r24,lo8(.LC3)
+ 504 0358 90E0      		ldi r25,hi8(.LC3)
+ 505 035a 0E94 0000 		call inet_addr
+ 506 035e 7B01      		movw r14,r22
+ 507 0360 8C01      		movw r16,r24
+ 508 0362 A601      		movw r20,r12
+ 509 0364 9501      		movw r18,r10
+ 510 0366 B401      		movw r22,r8
+ 511 0368 80E0      		ldi r24,lo8(.LC4)
+ 512 036a 90E0      		ldi r25,hi8(.LC4)
+ 513 036c 0E94 0000 		call NutNetIfConfig
+ 514               	.L38:
+ 515 0370 21E0      		ldi r18,lo8(1)
+ 516 0372 30E0      		ldi r19,hi8(1)
+ 517 0374 40E0      		ldi r20,lo8(0)
+ 518 0376 50E0      		ldi r21,hi8(0)
+ 519 0378 6FEF      		ldi r22,lo8(-1)
+ 520 037a 7FEF      		ldi r23,hi8(-1)
+ 521 037c 8FEF      		ldi r24,hlo8(-1)
+ 522 037e 9FEF      		ldi r25,hhi8(-1)
+ 523 0380 0E94 0000 		call NutRegisterDiscovery
+ 524 0384 892B      		or r24,r25
+ 525 0386 01F0      		breq .L42
+ 526 0388 80E0      		ldi r24,lo8(__c.2693)
+ 527 038a 90E0      		ldi r25,hi8(__c.2693)
+ 528 038c 9F93      		push r25
+ 529 038e 8F93      		push r24
+ 530 0390 86ED      		ldi r24,lo8(-42)
+ 531 0392 8F93      		push r24
+ 532 0394 0E94 0000 		call LogMsg_P
+ 533 0398 83E0      		ldi r24,lo8(3)
+ 534 039a 90E0      		ldi r25,hi8(3)
+ 535 039c 0F90      		pop __tmp_reg__
+ 536 039e 0F90      		pop __tmp_reg__
+ 537 03a0 0F90      	 	pop __tmp_reg__
+ 538 03a2 00C0      		rjmp .L44
+ 539               	.L42:
+ 540 03a4 80E0      		ldi r24,lo8(__c.2695)
+ 541 03a6 90E0      		ldi r25,hi8(__c.2695)
+ 542 03a8 9F93      		push r25
+ 543 03aa 8F93      		push r24
+ 544 03ac 16ED      		ldi r17,lo8(-42)
+ 545 03ae 1F93      		push r17
+ 546 03b0 0E94 0000 		call LogMsg_P
+ 547 03b4 80E0      		ldi r24,lo8(__c.2697)
+ 548 03b6 90E0      		ldi r25,hi8(__c.2697)
+ 549 03b8 9F93      		push r25
+ 550 03ba 8F93      		push r24
+ 551 03bc 1F93      		push r17
+ 552 03be 0E94 0000 		call LogMsg_P
+ 553 03c2 80E0      		ldi r24,lo8(gs(MyHandler))
+ 554 03c4 90E0      		ldi r25,hi8(gs(MyHandler))
+ 555 03c6 0E94 0000 		call NutRegisterDiscoveryCallback
+ 556 03ca 9093 0000 		sts (default_handler)+1,r25
+ 557 03ce 8093 0000 		sts default_handler,r24
+GAS LISTING C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s 			page 11
+
+
+ 558 03d2 84E0      		ldi r24,lo8(4)
+ 559 03d4 90E0      		ldi r25,hi8(4)
+ 560 03d6 2DB7      		in r18,__SP_L__
+ 561 03d8 3EB7      		in r19,__SP_H__
+ 562 03da 2A5F      		subi r18,lo8(-(6))
+ 563 03dc 3F4F      		sbci r19,hi8(-(6))
+ 564 03de 0FB6      		in __tmp_reg__,__SREG__
+ 565 03e0 F894      		cli
+ 566 03e2 3EBF      		out __SP_H__,r19
+ 567 03e4 0FBE      		out __SREG__,__tmp_reg__
+ 568 03e6 2DBF      		out __SP_L__,r18
+ 569               	.L44:
+ 570               	/* epilogue: frame size=6 */
+ 571 03e8 2696      		adiw r28,6
+ 572 03ea 0FB6      		in __tmp_reg__,__SREG__
+ 573 03ec F894      		cli
+ 574 03ee DEBF      		out __SP_H__,r29
+ 575 03f0 0FBE      		out __SREG__,__tmp_reg__
+ 576 03f2 CDBF      		out __SP_L__,r28
+ 577 03f4 DF91      		pop r29
+ 578 03f6 CF91      		pop r28
+ 579 03f8 1F91      		pop r17
+ 580 03fa 0F91      		pop r16
+ 581 03fc FF90      		pop r15
+ 582 03fe EF90      		pop r14
+ 583 0400 DF90      		pop r13
+ 584 0402 CF90      		pop r12
+ 585 0404 BF90      		pop r11
+ 586 0406 AF90      		pop r10
+ 587 0408 9F90      		pop r9
+ 588 040a 8F90      		pop r8
+ 589 040c 0895      		ret
+ 590               	/* epilogue end (size=19) */
+ 591               	/* function initNetworkDHCP size 176 (137) */
+ 592               		.size	initNetworkDHCP, .-initNetworkDHCP
+ 593               		.section	.progmem.data,"a",@progbits
+ 594               		.type	__c.2777, @object
+ 595               		.size	__c.2777, 31
+ 596               	__c.2777:
+ 597 0000 466F 7574 		.string	"Fout bij ontvangen client data"
+ 597      2062 696A 
+ 597      206F 6E74 
+ 597      7661 6E67 
+ 597      656E 2063 
+ 598               		.type	__c.2767, @object
+ 599               		.size	__c.2767, 34
+ 600               	__c.2767:
+ 601 001f 4765 656E 		.string	"Geen Fout bij zenden client data?"
+ 601      2046 6F75 
+ 601      7420 6269 
+ 601      6A20 7A65 
+ 601      6E64 656E 
+ 602               		.type	__c.2765, @object
+ 603               		.size	__c.2765, 28
+ 604               	__c.2765:
+ 605 0041 466F 7574 		.string	"Fout bij zenden client data"
+ 605      2062 696A 
+GAS LISTING C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s 			page 12
+
+
+ 605      207A 656E 
+ 605      6465 6E20 
+ 605      636C 6965 
+ 606               		.type	__c.2756, @object
+ 607               		.size	__c.2756, 26
+ 608               	__c.2756:
+ 609 005d 466F 7574 		.string	"Fout bij connecten socket"
+ 609      2062 696A 
+ 609      2063 6F6E 
+ 609      6E65 6374 
+ 609      656E 2073 
+ 610               		.type	__c.2739, @object
+ 611               		.size	__c.2739, 29
+ 612               	__c.2739:
+ 613 0077 4E54 5020 		.string	"NTP time is: %02d:%02d:%02d\n"
+ 613      7469 6D65 
+ 613      2069 733A 
+ 613      2025 3032 
+ 613      643A 2530 
+ 614               		.type	__c.2735, @object
+ 615               		.size	__c.2735, 44
+ 616               	__c.2735:
+ 617 0094 466F 7574 		.string	"Fout bij ophalen ntp tijd, pogingen over:%d"
+ 617      2062 696A 
+ 617      206F 7068 
+ 617      616C 656E 
+ 617      206E 7470 
+ 618               		.type	__c.2731, @object
+ 619               		.size	__c.2731, 37
+ 620               	__c.2731:
+ 621 00c0 5265 7472 		.string	"Retrieving time from 78.192.65.63..."
+ 621      6965 7669 
+ 621      6E67 2074 
+ 621      696D 6520 
+ 621      6672 6F6D 
+ 622               		.type	__c.2697, @object
+ 623               		.size	__c.2697, 25
+ 624               	__c.2697:
+ 625 00e5 4950 203D 		.string	"IP = [%d],[%d],[%d],[%d]"
+ 625      205B 2564 
+ 625      5D2C 5B25 
+ 625      645D 2C5B 
+ 625      2564 5D2C 
+ 626               		.type	__c.2695, @object
+ 627               		.size	__c.2695, 29
+ 628               	__c.2695:
+ 629 00fe 4574 6865 		.string	"Ethernet Startup Message: OK"
+ 629      726E 6574 
+ 629      2053 7461 
+ 629      7274 7570 
+ 629      204D 6573 
+ 630               		.type	__c.2693, @object
+ 631               		.size	__c.2693, 24
+ 632               	__c.2693:
+ 633 011b 4469 7363 		.string	"Discover Service failed"
+ 633      6F76 6572 
+ 633      2053 6572 
+GAS LISTING C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s 			page 13
+
+
+ 633      7669 6365 
+ 633      2066 6169 
+ 634               		.type	__c.2688, @object
+ 635               		.size	__c.2688, 29
+ 636               	__c.2688:
+ 637 0133 5265 6769 		.string	"Registering ethernet failed."
+ 637      7374 6572 
+ 637      696E 6720 
+ 637      6574 6865 
+ 637      726E 6574 
+ 638               		.data
+ 639               		.type	C.1.2701, @object
+ 640               		.size	C.1.2701, 6
+ 641               	C.1.2701:
+ 642 003c 00        		.byte	0
+ 643 003d 06        		.byte	6
+ 644 003e 98        		.byte	-104
+ 645 003f 35        		.byte	53
+ 646 0040 02        		.byte	2
+ 647 0041 76        		.byte	118
+ 648               		.type	C.0.2679, @object
+ 649               		.size	C.0.2679, 6
+ 650               	C.0.2679:
+ 651 0042 00        		.byte	0
+ 652 0043 06        		.byte	6
+ 653 0044 98        		.byte	-104
+ 654 0045 35        		.byte	53
+ 655 0046 02        		.byte	2
+ 656 0047 76        		.byte	118
+ 657               		.lcomm default_handler,2
+ 658               	/* File "source/EthernetSIR.c": code  523 = 0x020b ( 397), prologues  62, epilogues  64 */
+GAS LISTING C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s 			page 14
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 EthernetSIR.c
+C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s:3      *ABS*:0000003f __SREG__
+C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s:4      *ABS*:0000003e __SP_H__
+C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s:5      *ABS*:0000003d __SP_L__
+C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s:12     .text:00000000 MyHandler
+                             .bss:00000000 default_handler
+C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s:29     .text:00000014 clientClose
+C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s:40     .text:0000001a clientReceive
+C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s:596    .progmem.data:00000000 __c.2777
+C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s:71     .text:00000048 clientSend
+C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s:604    .progmem.data:00000041 __c.2765
+C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s:600    .progmem.data:0000001f __c.2767
+C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s:109    .text:0000007a clientConnect
+C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s:608    .progmem.data:0000005d __c.2756
+C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s:150    .text:000000b6 getNTPTime
+C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s:620    .progmem.data:000000c0 __c.2731
+C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s:616    .progmem.data:00000094 __c.2735
+C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s:612    .progmem.data:00000077 __c.2739
+C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s:327    .text:00000208 initNetworkStatic
+C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s:650    .data:00000042 C.0.2679
+C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s:420    .text:000002b0 initNetworkDHCP
+C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s:636    .progmem.data:00000133 __c.2688
+C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s:641    .data:0000003c C.1.2701
+C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s:632    .progmem.data:0000011b __c.2693
+C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s:628    .progmem.data:000000fe __c.2695
+C:\Users\jesse\AppData\Local\Temp/cc2E6DF8.s:624    .progmem.data:000000e5 __c.2697
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
+NutTcpCloseSocket
+NutTcpReceive
+LogMsg_P
+NutTcpSend
+inet_addr
+NutTcpConnect
+_timezone
+NutSNTPGetTime
+NutSleep
+localtime
+devEth0
+NutRegisterDevice
+NutNetIfConfig
+NutDhcpIfConfig
+NutRegisterDiscovery
+NutRegisterDiscoveryCallback

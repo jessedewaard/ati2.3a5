@@ -22,12 +22,15 @@
 /*  Include files                                                           */
 /*--------------------------------------------------------------------------*/
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include <sys/thread.h>
 #include <sys/timer.h>
 #include <sys/version.h>
 #include <dev/irqreg.h>
+
+#include <sys/socket.h>
 
 #include "system.h"
 #include "portio.h"
@@ -42,6 +45,8 @@
 #include "flash.h"
 #include "spidrv.h"
 
+#import  "EthernetSIR.h"
+
 #include <time.h>
 #include "rtc.h"
 
@@ -49,7 +54,9 @@
 /*-------------------------------------------------------------------------*/
 /* global variable definitions                                             */
 /*-------------------------------------------------------------------------*/
-
+tm gmt;
+tm pgmt;
+char buffer [32] = "GET /search?q=arduino HTTP/1.0\n\n";
 /*-------------------------------------------------------------------------*/
 /* local variable definitions                                              */
 /*-------------------------------------------------------------------------*/
@@ -60,6 +67,7 @@
 /*-------------------------------------------------------------------------*/
 static void SysMainBeatInterrupt(void*);
 static void SysControlMainBeat(u_char);
+void TimeToBuffer(char*);
 
 /*-------------------------------------------------------------------------*/
 /* Stack check variables placed in .noinit section                         */
@@ -89,6 +97,7 @@ static void SysControlMainBeat(u_char);
  * \param *p not used (might be used to pass parms from the ISR)
  */
 /* อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ */
+
 static void SysMainBeatInterrupt(void *p)
 {
 
@@ -97,6 +106,11 @@ static void SysMainBeatInterrupt(void *p)
      */
     KbScan();
     CardCheckCard();
+}
+
+
+void TimeToBuffer(char *buffer){
+	int n = sprintf(buffer,"%02d:%02d:%02d", gmt.tm_hour, gmt.tm_min, gmt.tm_sec );
 }
 
 
@@ -190,6 +204,58 @@ static void SysControlMainBeat(u_char OnOff)
     }
 }
 
+THREAD(Thread1, arg)
+{
+	LcdSetCursorPosition(0,4);
+	PrintStr("Ingedrukt");
+	int licht = 1;
+
+    for (;;) {
+        NutSleep(100);
+		LcdSetCursorPosition(0,0);
+		PrintStr("000");		
+
+    	char buffer [16];
+		int n;
+		char kb = KbGetKey();
+		if(kb < 125 && kb > 0){
+			n = sprintf(buffer,"%d",kb);
+			LcdSetCursorPosition(0,(3-n));
+			PrintStr(buffer);
+		}
+		if(kb == 13){
+			if(licht == 1){
+				licht = 0;
+			}else{
+				licht = 1;
+			}
+			LcdBackLight(licht);
+			
+		}
+		//PrintStr(sprintf("%s",KbGetKey()));
+		NutSleep(100);
+
+    }
+}
+
+/*
+*	Update rtc time op display
+*/
+char rtctime [16];
+THREAD(TimeUpdater, arg){
+	for(;;){
+		NutSleep(100);
+		if (X12RtcGetClock(&gmt) == 0)
+    	{
+			TimeToBuffer(time);
+    	}
+		LcdBufferLoader(NULL,time);
+
+	}
+}
+
+ 
+
 /* อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ */
 /*!
  * \brief Main entry of the SIR firmware
@@ -202,23 +268,11 @@ static void SysControlMainBeat(u_char OnOff)
  * \return \b never returns
  */
 /* อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ */
+
+	#define USE_JTAG
 int main(void)
 {
-	int t = 0;
-	int x = 0;
 	
-	/* 
-	 * Kroeske: time struct uit nut/os time.h (http://www.ethernut.de/api/time_8h-source.html)
-	 *
-	 */
-	tm gmt;
-	/*
-	 * Kroeske: Ook kan 'struct _tm gmt' Zie bovenstaande link
-	 */
-	
-    /*
-     *  First disable the watchdog
-     */
     WatchDogDisable();
 
     NutDelay(100);
@@ -230,23 +284,20 @@ int main(void)
 	LedInit();
 	
 	LcdLowLevelInit();
-
+	LcdBackLight(1);
+	PrintStr("Starting System");
     Uart0DriverInit();
     Uart0DriverStart();
 	LogInit();
-	LogMsg_P(LOG_INFO, PSTR("Hello World"));
 
     CardInit();
 
-	/*
-	 * Kroeske: sources in rtc.c en rtc.h
-	 */
+	
     X12Init();
     if (X12RtcGetClock(&gmt) == 0)
     {
 		LogMsg_P(LOG_INFO, PSTR("RTC time [%02d:%02d:%02d]"), gmt.tm_hour, gmt.tm_min, gmt.tm_sec );
     }
-
 
     if (At45dbInit()==AT45DB041B)
     {
@@ -258,8 +309,23 @@ int main(void)
     
 	KbInit();
 
-    SysControlMainBeat(ON);
+    SysControlMainBeat(ON);             // enable 4.4 msecs hartbeat interrupt
 	
+	ClearLcdScreen();
+
+	//Nieuwe threads aanmaken
+    NutThreadCreate("t01", Thread1, NULL, 512);
+	NutThreadCreate("time", TimeUpdater, NULL, 512);
+	
+	//Start netwerk
+	int i = initNetworkDHCP();
+	LogMsg_P(LOG_INFO, PSTR("Ethernet Startup Message: [%d]"),i);
+
+	//Haal Internet tijd op
+	pgmt = getNTPTime();
+	X12RtcSetClock(&pgmt);
+	//LogMsg_P(LOG_INFO, PSTR("New RTC time [%02d:%02d:%02d]"), gmt.tm_hour, gmt.tm_min, gmt.tm_sec );
+
     /*
      * Increase our priority so we can feed the watchdog.
      */
@@ -267,36 +333,41 @@ int main(void)
 
 	/* Enable global interrupts */
 	sei();
+
+	/******************NETWERK**TEST*****************************************************/
+
+	//Maak nieuwe socket
+	TCPSOCKET *sock;
+	sock = NutTcpCreateSocket();
+	//Connect met google.nl
+	LogMsg_P(LOG_INFO, PSTR("Connecting client"));
+	clientConnect(sock);
+	//Zend http req
+	clientSend(sock,buffer,sizeof(buffer));
+
+	//Ontvang response in buffer --> grotere buffer (1500)= crash-->heapsize??(8k ram)
+	char rcvbuffer [500];
+	int rec;
+	rec = clientReceive(sock,rcvbuffer,sizeof(rcvbuffer));
+	LogMsg_P(LOG_INFO, PSTR("received [%d]"),rec);
+
+	//0 terminate buffer(string)
+	//rcvbuffer[499] = 0;
+
+	//Print buffer(http response enz)
+	LogMsg_P(LOG_INFO, PSTR("received [%s]"),rcvbuffer);
 	
-	int timer = 0;
-	
-	LcdChar('A');
-	//lcdWriteWord("Welcome\nTo my project");
-	//KbInjectKey(0xFFFB);
+	//Sluit connectie
+	clientClose(sock);
+	/***********************************************************************************/
+
+	//Main gui besturing??
     for (;;)
     {
-		if( !((t++)%35) ){
-			LcdChar('h');
-		}
-		
         NutSleep(100);
-		
-		if(KbGetKey() != 255){
-			LcdBackLight(LCD_BACKLIGHT_ON);
-			timer = 100;
-		}else if(timer > 0){
-			timer--;
-		}
-		
-		if(timer == 0){
-			LcdBackLight(LCD_BACKLIGHT_OFF);
-		}
-		
         WatchDogRestart();
     }
 
-    return(0);      // never reached, but 'main()' returns a non-void, so.....
+    return(0);      
 }
-/* ---------- end of module ------------------------------------------------ */
 
-/*@}*/

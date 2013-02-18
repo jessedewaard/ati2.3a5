@@ -1,4 +1,4 @@
-GAS LISTING C:\Users\Jack\AppData\Local\Temp/ccslGSCG.s 			page 1
+GAS LISTING C:\Users\jesse\AppData\Local\Temp/ccSLaSTq.s 			page 1
 
 
    1               		.file	"display.c"
@@ -58,7 +58,7 @@ GAS LISTING C:\Users\Jack\AppData\Local\Temp/ccslGSCG.s 			page 1
   55               	/* #NOAPP */
   56 0032 7298      		cbi 46-0x20,2
   57 0034 8A98      		cbi 49-0x20,2
-GAS LISTING C:\Users\Jack\AppData\Local\Temp/ccslGSCG.s 			page 2
+GAS LISTING C:\Users\jesse\AppData\Local\Temp/ccSLaSTq.s 			page 2
 
 
   58 0036 8AB1      		in r24,42-0x20
@@ -110,105 +110,244 @@ GAS LISTING C:\Users\Jack\AppData\Local\Temp/ccslGSCG.s 			page 1
  104               	/* epilogue end (size=3) */
  105               	/* function LcdWriteByte size 30 (25) */
  106               		.size	LcdWriteByte, .-LcdWriteByte
- 107               	.global	lcdClear
- 108               		.type	lcdClear, @function
- 109               	lcdClear:
+ 107               	.global	LoadCustomChars
+ 108               		.type	LoadCustomChars, @function
+ 109               	LoadCustomChars:
  110               	/* prologue: frame size=0 */
- 111               	/* prologue end (size=0) */
- 112 007e 61E0      		ldi r22,lo8(1)
- 113 0080 82E0      		ldi r24,lo8(2)
- 114 0082 0E94 0000 		call LcdWriteByte
-GAS LISTING C:\Users\Jack\AppData\Local\Temp/ccslGSCG.s 			page 3
+ 111 007e EF92      		push r14
+ 112 0080 FF92      		push r15
+ 113 0082 0F93      		push r16
+ 114 0084 1F93      		push r17
+GAS LISTING C:\Users\jesse\AppData\Local\Temp/ccSLaSTq.s 			page 3
 
 
- 115               	/* epilogue: frame size=0 */
- 116 0086 0895      		ret
- 117               	/* epilogue end (size=1) */
- 118               	/* function lcdClear size 5 (4) */
- 119               		.size	lcdClear, .-lcdClear
- 120               	.global	LcdChar
- 121               		.type	LcdChar, @function
- 122               	LcdChar:
- 123               	/* prologue: frame size=0 */
- 124               	/* prologue end (size=0) */
- 125 0088 682F      		mov r22,r24
- 126 008a 83E0      		ldi r24,lo8(3)
- 127 008c 0E94 0000 		call LcdWriteByte
- 128               	/* epilogue: frame size=0 */
- 129 0090 0895      		ret
- 130               	/* epilogue end (size=1) */
- 131               	/* function LcdChar size 5 (4) */
- 132               		.size	LcdChar, .-LcdChar
- 133               	.global	LcdLowLevelInit
- 134               		.type	LcdLowLevelInit, @function
- 135               	LcdLowLevelInit:
- 136               	/* prologue: frame size=0 */
- 137 0092 1F93      		push r17
- 138               	/* prologue end (size=1) */
- 139 0094 8CE8      		ldi r24,lo8(-116)
- 140 0096 0E94 0000 		call NutDelay
- 141 009a 10E0      		ldi r17,lo8(0)
- 142               	.L23:
- 143 009c 63E3      		ldi r22,lo8(51)
- 144 009e 82E0      		ldi r24,lo8(2)
- 145 00a0 0E94 0000 		call LcdWriteNibble
- 146 00a4 84E0      		ldi r24,lo8(4)
- 147 00a6 0E94 0000 		call NutDelay
- 148 00aa 1F5F      		subi r17,lo8(-(1))
- 149 00ac 1330      		cpi r17,lo8(3)
- 150 00ae 01F4      		brne .L23
- 151 00b0 62E2      		ldi r22,lo8(34)
- 152 00b2 82E0      		ldi r24,lo8(2)
- 153 00b4 0E94 0000 		call LcdWriteNibble
- 154 00b8 81E0      		ldi r24,lo8(1)
- 155 00ba 0E94 0000 		call NutDelay
- 156 00be 68E2      		ldi r22,lo8(40)
- 157 00c0 82E0      		ldi r24,lo8(2)
- 158 00c2 0E94 0000 		call LcdWriteByte
- 159 00c6 85E0      		ldi r24,lo8(5)
- 160 00c8 0E94 0000 		call NutDelay
- 161 00cc 6CE0      		ldi r22,lo8(12)
- 162 00ce 82E0      		ldi r24,lo8(2)
- 163 00d0 0E94 0000 		call LcdWriteByte
- 164 00d4 85E0      		ldi r24,lo8(5)
- 165 00d6 0E94 0000 		call NutDelay
- 166 00da 61E0      		ldi r22,lo8(1)
- 167 00dc 82E0      		ldi r24,lo8(2)
- 168 00de 0E94 0000 		call LcdWriteByte
- 169 00e2 85E0      		ldi r24,lo8(5)
- 170 00e4 0E94 0000 		call NutDelay
- 171 00e8 66E0      		ldi r22,lo8(6)
-GAS LISTING C:\Users\Jack\AppData\Local\Temp/ccslGSCG.s 			page 4
+ 115 0086 CF93      		push r28
+ 116 0088 DF93      		push r29
+ 117               	/* prologue end (size=6) */
+ 118 008a 8C01      		movw r16,r24
+ 119 008c F62E      		mov r15,r22
+ 120 008e 60E4      		ldi r22,lo8(64)
+ 121 0090 82E0      		ldi r24,lo8(2)
+ 122 0092 0E94 0000 		call LcdWriteByte
+ 123 0096 CF2D      		mov r28,r15
+ 124 0098 DD27      		clr r29
+ 125 009a C7FD      		sbrc r28,7
+ 126 009c D095      		com r29
+ 127 009e 83E0      		ldi r24,3
+ 128 00a0 CC0F      	1:	lsl r28
+ 129 00a2 DD1F      		rol r29
+ 130 00a4 8A95      		dec r24
+ 131 00a6 01F4      		brne 1b
+ 132 00a8 EE24      		clr r14
+ 133 00aa FF24      		clr r15
+ 134 00ac 00C0      		rjmp .L19
+ 135               	.L20:
+ 136 00ae F801      		movw r30,r16
+ 137 00b0 6191      		ld r22,Z+
+ 138 00b2 8F01      		movw r16,r30
+ 139 00b4 83E0      		ldi r24,lo8(3)
+ 140 00b6 0E94 0000 		call LcdWriteByte
+ 141 00ba 0894      		sec
+ 142 00bc E11C      		adc r14,__zero_reg__
+ 143 00be F11C      		adc r15,__zero_reg__
+ 144               	.L19:
+ 145 00c0 EC16      		cp r14,r28
+ 146 00c2 FD06      		cpc r15,r29
+ 147 00c4 04F0      		brlt .L20
+ 148               	/* epilogue: frame size=0 */
+ 149 00c6 DF91      		pop r29
+ 150 00c8 CF91      		pop r28
+ 151 00ca 1F91      		pop r17
+ 152 00cc 0F91      		pop r16
+ 153 00ce FF90      		pop r15
+ 154 00d0 EF90      		pop r14
+ 155 00d2 0895      		ret
+ 156               	/* epilogue end (size=7) */
+ 157               	/* function LoadCustomChars size 43 (30) */
+ 158               		.size	LoadCustomChars, .-LoadCustomChars
+ 159               	.global	LcdSetCursorPosition
+ 160               		.type	LcdSetCursorPosition, @function
+ 161               	LcdSetCursorPosition:
+ 162               	/* prologue: frame size=0 */
+ 163               	/* prologue end (size=0) */
+ 164 00d4 8111      		cpse r24,__zero_reg__
+ 165 00d6 80E4      		ldi r24,lo8(64)
+ 166               	.L26:
+ 167 00d8 6068      		ori r22,lo8(-128)
+ 168 00da 862B      		or r24,r22
+ 169 00dc 682F      		mov r22,r24
+ 170 00de 82E0      		ldi r24,lo8(2)
+ 171 00e0 0E94 0000 		call LcdWriteByte
+GAS LISTING C:\Users\jesse\AppData\Local\Temp/ccSLaSTq.s 			page 4
 
 
- 172 00ea 82E0      		ldi r24,lo8(2)
- 173 00ec 0E94 0000 		call LcdWriteByte
- 174 00f0 60E8      		ldi r22,lo8(-128)
- 175 00f2 82E0      		ldi r24,lo8(2)
- 176 00f4 0E94 0000 		call LcdWriteByte
- 177               	/* epilogue: frame size=0 */
- 178 00f8 1F91      		pop r17
- 179 00fa 0895      		ret
- 180               	/* epilogue end (size=2) */
- 181               	/* function LcdLowLevelInit size 53 (50) */
- 182               		.size	LcdLowLevelInit, .-LcdLowLevelInit
- 183               	/* File "source/display.c": code  130 = 0x0082 ( 119), prologues   3, epilogues   8 */
-GAS LISTING C:\Users\Jack\AppData\Local\Temp/ccslGSCG.s 			page 5
+ 172               	/* epilogue: frame size=0 */
+ 173 00e4 0895      		ret
+ 174               	/* epilogue end (size=1) */
+ 175               	/* function LcdSetCursorPosition size 10 (9) */
+ 176               		.size	LcdSetCursorPosition, .-LcdSetCursorPosition
+ 177               	.global	ClearLcdScreen
+ 178               		.type	ClearLcdScreen, @function
+ 179               	ClearLcdScreen:
+ 180               	/* prologue: frame size=0 */
+ 181               	/* prologue end (size=0) */
+ 182 00e6 61E0      		ldi r22,lo8(1)
+ 183 00e8 82E0      		ldi r24,lo8(2)
+ 184 00ea 0E94 0000 		call LcdWriteByte
+ 185 00ee 62E0      		ldi r22,lo8(2)
+ 186 00f0 82E0      		ldi r24,lo8(2)
+ 187 00f2 0E94 0000 		call LcdWriteByte
+ 188               	/* epilogue: frame size=0 */
+ 189 00f6 0895      		ret
+ 190               	/* epilogue end (size=1) */
+ 191               	/* function ClearLcdScreen size 9 (8) */
+ 192               		.size	ClearLcdScreen, .-ClearLcdScreen
+ 193               	.global	LcdChar
+ 194               		.type	LcdChar, @function
+ 195               	LcdChar:
+ 196               	/* prologue: frame size=0 */
+ 197               	/* prologue end (size=0) */
+ 198 00f8 682F      		mov r22,r24
+ 199 00fa 83E0      		ldi r24,lo8(3)
+ 200 00fc 0E94 0000 		call LcdWriteByte
+ 201               	/* epilogue: frame size=0 */
+ 202 0100 0895      		ret
+ 203               	/* epilogue end (size=1) */
+ 204               	/* function LcdChar size 5 (4) */
+ 205               		.size	LcdChar, .-LcdChar
+ 206               	.global	PrintStr
+ 207               		.type	PrintStr, @function
+ 208               	PrintStr:
+ 209               	/* prologue: frame size=0 */
+ 210 0102 CF93      		push r28
+ 211 0104 DF93      		push r29
+ 212               	/* prologue end (size=2) */
+ 213 0106 EC01      		movw r28,r24
+ 214 0108 00C0      		rjmp .L33
+ 215               	.L34:
+ 216 010a 0E94 0000 		call LcdChar
+ 217 010e 2196      		adiw r28,1
+ 218               	.L33:
+ 219 0110 2097      		sbiw r28,0
+ 220 0112 01F0      		breq .L37
+ 221 0114 8881      		ld r24,Y
+ 222 0116 8823      		tst r24
+ 223 0118 01F4      		brne .L34
+ 224               	.L37:
+ 225               	/* epilogue: frame size=0 */
+ 226 011a DF91      		pop r29
+ 227 011c CF91      		pop r28
+ 228 011e 0895      		ret
+GAS LISTING C:\Users\jesse\AppData\Local\Temp/ccSLaSTq.s 			page 5
+
+
+ 229               	/* epilogue end (size=3) */
+ 230               	/* function PrintStr size 15 (10) */
+ 231               		.size	PrintStr, .-PrintStr
+ 232               	.global	LcdBufferLoader
+ 233               		.type	LcdBufferLoader, @function
+ 234               	LcdBufferLoader:
+ 235               	/* prologue: frame size=0 */
+ 236 0120 EF92      		push r14
+ 237 0122 FF92      		push r15
+ 238 0124 0F93      		push r16
+ 239 0126 1F93      		push r17
+ 240               	/* prologue end (size=4) */
+ 241 0128 8C01      		movw r16,r24
+ 242 012a 7B01      		movw r14,r22
+ 243 012c 60E0      		ldi r22,lo8(0)
+ 244 012e 80E0      		ldi r24,lo8(0)
+ 245 0130 0E94 0000 		call LcdSetCursorPosition
+ 246 0134 C801      		movw r24,r16
+ 247 0136 0E94 0000 		call PrintStr
+ 248 013a 60E0      		ldi r22,lo8(0)
+ 249 013c 81E0      		ldi r24,lo8(1)
+ 250 013e 0E94 0000 		call LcdSetCursorPosition
+ 251 0142 C701      		movw r24,r14
+ 252 0144 0E94 0000 		call PrintStr
+ 253               	/* epilogue: frame size=0 */
+ 254 0148 1F91      		pop r17
+ 255 014a 0F91      		pop r16
+ 256 014c FF90      		pop r15
+ 257 014e EF90      		pop r14
+ 258 0150 0895      		ret
+ 259               	/* epilogue end (size=5) */
+ 260               	/* function LcdBufferLoader size 25 (16) */
+ 261               		.size	LcdBufferLoader, .-LcdBufferLoader
+ 262               	.global	LcdLowLevelInit
+ 263               		.type	LcdLowLevelInit, @function
+ 264               	LcdLowLevelInit:
+ 265               	/* prologue: frame size=0 */
+ 266 0152 1F93      		push r17
+ 267               	/* prologue end (size=1) */
+ 268 0154 8CE8      		ldi r24,lo8(-116)
+ 269 0156 0E94 0000 		call NutDelay
+ 270 015a 10E0      		ldi r17,lo8(0)
+ 271               	.L41:
+ 272 015c 63E3      		ldi r22,lo8(51)
+ 273 015e 82E0      		ldi r24,lo8(2)
+ 274 0160 0E94 0000 		call LcdWriteNibble
+ 275 0164 84E0      		ldi r24,lo8(4)
+ 276 0166 0E94 0000 		call NutDelay
+ 277 016a 1F5F      		subi r17,lo8(-(1))
+ 278 016c 1330      		cpi r17,lo8(3)
+ 279 016e 01F4      		brne .L41
+ 280 0170 62E2      		ldi r22,lo8(34)
+ 281 0172 82E0      		ldi r24,lo8(2)
+ 282 0174 0E94 0000 		call LcdWriteNibble
+ 283 0178 81E0      		ldi r24,lo8(1)
+ 284 017a 0E94 0000 		call NutDelay
+ 285 017e 68E2      		ldi r22,lo8(40)
+GAS LISTING C:\Users\jesse\AppData\Local\Temp/ccSLaSTq.s 			page 6
+
+
+ 286 0180 82E0      		ldi r24,lo8(2)
+ 287 0182 0E94 0000 		call LcdWriteByte
+ 288 0186 85E0      		ldi r24,lo8(5)
+ 289 0188 0E94 0000 		call NutDelay
+ 290 018c 6CE0      		ldi r22,lo8(12)
+ 291 018e 82E0      		ldi r24,lo8(2)
+ 292 0190 0E94 0000 		call LcdWriteByte
+ 293 0194 85E0      		ldi r24,lo8(5)
+ 294 0196 0E94 0000 		call NutDelay
+ 295 019a 61E0      		ldi r22,lo8(1)
+ 296 019c 82E0      		ldi r24,lo8(2)
+ 297 019e 0E94 0000 		call LcdWriteByte
+ 298 01a2 85E0      		ldi r24,lo8(5)
+ 299 01a4 0E94 0000 		call NutDelay
+ 300 01a8 66E0      		ldi r22,lo8(6)
+ 301 01aa 82E0      		ldi r24,lo8(2)
+ 302 01ac 0E94 0000 		call LcdWriteByte
+ 303 01b0 60E8      		ldi r22,lo8(-128)
+ 304 01b2 82E0      		ldi r24,lo8(2)
+ 305 01b4 0E94 0000 		call LcdWriteByte
+ 306               	/* epilogue: frame size=0 */
+ 307 01b8 1F91      		pop r17
+ 308 01ba 0895      		ret
+ 309               	/* epilogue end (size=2) */
+ 310               	/* function LcdLowLevelInit size 53 (50) */
+ 311               		.size	LcdLowLevelInit, .-LcdLowLevelInit
+ 312               	/* File "source/display.c": code  227 = 0x00e3 ( 188), prologues  15, epilogues  24 */
+GAS LISTING C:\Users\jesse\AppData\Local\Temp/ccSLaSTq.s 			page 7
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 display.c
-C:\Users\Jack\AppData\Local\Temp/ccslGSCG.s:3      *ABS*:0000003f __SREG__
-C:\Users\Jack\AppData\Local\Temp/ccslGSCG.s:4      *ABS*:0000003e __SP_H__
-C:\Users\Jack\AppData\Local\Temp/ccslGSCG.s:5      *ABS*:0000003d __SP_L__
-C:\Users\Jack\AppData\Local\Temp/ccslGSCG.s:6      *ABS*:00000000 __tmp_reg__
-C:\Users\Jack\AppData\Local\Temp/ccslGSCG.s:7      *ABS*:00000001 __zero_reg__
-C:\Users\Jack\AppData\Local\Temp/ccslGSCG.s:13     .text:00000000 LcdBackLight
-C:\Users\Jack\AppData\Local\Temp/ccslGSCG.s:32     .text:00000010 LcdWriteNibble
-C:\Users\Jack\AppData\Local\Temp/ccslGSCG.s:71     .text:00000046 LcdWriteByte
-C:\Users\Jack\AppData\Local\Temp/ccslGSCG.s:109    .text:0000007e lcdClear
-C:\Users\Jack\AppData\Local\Temp/ccslGSCG.s:122    .text:00000088 LcdChar
-C:\Users\Jack\AppData\Local\Temp/ccslGSCG.s:135    .text:00000092 LcdLowLevelInit
+C:\Users\jesse\AppData\Local\Temp/ccSLaSTq.s:3      *ABS*:0000003f __SREG__
+C:\Users\jesse\AppData\Local\Temp/ccSLaSTq.s:4      *ABS*:0000003e __SP_H__
+C:\Users\jesse\AppData\Local\Temp/ccSLaSTq.s:5      *ABS*:0000003d __SP_L__
+C:\Users\jesse\AppData\Local\Temp/ccSLaSTq.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\jesse\AppData\Local\Temp/ccSLaSTq.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\jesse\AppData\Local\Temp/ccSLaSTq.s:13     .text:00000000 LcdBackLight
+C:\Users\jesse\AppData\Local\Temp/ccSLaSTq.s:32     .text:00000010 LcdWriteNibble
+C:\Users\jesse\AppData\Local\Temp/ccSLaSTq.s:71     .text:00000046 LcdWriteByte
+C:\Users\jesse\AppData\Local\Temp/ccSLaSTq.s:109    .text:0000007e LoadCustomChars
+C:\Users\jesse\AppData\Local\Temp/ccSLaSTq.s:161    .text:000000d4 LcdSetCursorPosition
+C:\Users\jesse\AppData\Local\Temp/ccSLaSTq.s:179    .text:000000e6 ClearLcdScreen
+C:\Users\jesse\AppData\Local\Temp/ccSLaSTq.s:195    .text:000000f8 LcdChar
+C:\Users\jesse\AppData\Local\Temp/ccSLaSTq.s:208    .text:00000102 PrintStr
+C:\Users\jesse\AppData\Local\Temp/ccSLaSTq.s:234    .text:00000120 LcdBufferLoader
+C:\Users\jesse\AppData\Local\Temp/ccSLaSTq.s:264    .text:00000152 LcdLowLevelInit
 
 UNDEFINED SYMBOLS
 __do_copy_data
