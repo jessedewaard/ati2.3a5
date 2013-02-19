@@ -211,6 +211,16 @@ THREAD(Thread1, arg)
 	int licht = 1;
 
     for (;;) {
+		LcdSetCursorPosition(1,11);
+		PrintStr("\1");
+		LcdSetCursorPosition(1,12);
+		PrintStr("\2");
+		LcdSetCursorPosition(1,13);
+		PrintStr("\3");
+		LcdSetCursorPosition(0,15);
+		PrintStr("\4");
+		LcdSetCursorPosition(1,15);
+		PrintStr("\5");
         NutSleep(100);
 		LcdSetCursorPosition(0,0);
 		PrintStr("000");		
@@ -254,6 +264,8 @@ THREAD(TimeUpdater, arg){
 	}
 }
 
+
+
  
 
 /* อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ */
@@ -292,6 +304,9 @@ int main(void)
 
     CardInit();
 
+	char custom[48] = ALL;
+	
+	LoadCustomChars(custom, 6);
 	
     X12Init();
     if (X12RtcGetClock(&gmt) == 0)
